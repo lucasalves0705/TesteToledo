@@ -1,0 +1,66 @@
+﻿@{ 
+    List<CidadeModel> cidades = (List<CidadeModel>)ViewBag.cidades;
+}
+
+<div class="container mt-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-7">
+            <div class="card px-5 py-4" id="form1">
+                <div class="form-data" v-if="!submitted">
+                    <div class="text-center mb-4">
+                        <h4>Cadastrar Cliente</h4>
+                    </div>
+                    <form asp-controller="Cliente" asp-action="Salvar" method="post">
+                        <div class="forms-inputs mb-4">
+                            <span>Nome</span> <input type="text" name="nome" v-model="username" v-bind:class="{'form-control':true, 'is-invalid' : !validUsername(username) && usernameBlured}" v-on:blur="usernameBlured = true">
+                            <div class="invalid-feedback">Inserir um nome de usuário</div>
+                        </div>
+                        <div class="forms-inputs mb-4">
+                            <span>CPF</span> <input type="text" name="cpf" v-model="cpf" v-bind:class="{'form-control':true, 'is-invalid' : !validCPF(cpf) && cpfBlured}" v-on:blur="cpfBlured = true">
+                            <div class="invalid-feedback">Inserir um CPF</div>
+                        </div>
+                        <div class="row">
+                            <div class="forms-inputs mb-4 col-10">
+                                <span>Rua</span> <input type="text" name="rua" v-model="rua" v-bind:class="{'form-control':true, 'is-invalid' : !validRua(rua) && ruaBlured}" v-on:blur="ruaBlured = true">
+                                <div class="invalid-feedback">Inserir a rua</div>
+                            </div>
+                            <div class="forms-inputs mb-4 col-2">
+                                <span>N°</span> <input type="text" name="numero" v-model="numero" v-bind:class="{'form-control':true, 'is-invalid' : !validNumero(numero) && numeroBlured}" v-on:blur="numeroBlured = true">
+                                <div class="invalid-feedback">Inserir um número</div>
+                            </div>
+                        </div>
+                        <div class="forms-inputs mb-4">
+                            <span>Bairro</span> <input type="text" name="bairro" v-model="bairro" v-bind:class="{'form-control':true, 'is-invalid' : !validBairro(bairro) && bairroBlured}" v-on:blur="bairroBlured = true">
+                            <div class="invalid-feedback">Inserir um bairro</div>
+                        </div>
+                        <div class="forms-inputs mb-4">
+                            <span>Cidade</span>
+                            <select name="cidade" v-model="cidade" v-bind:class="{'form-control':true, 'is-invalid' : !validCidade(cidade) && cidadeBlured}" v-on:blur="cidadeBlured = true">
+                                @foreach (CidadeModel cidade in cidades)
+                                {
+                                    <option value="@cidade.Codigo">@cidade.Descricao</option>
+                               }
+                            </select>
+                            <div class="invalid-feedback">Inserir uma cidade</div>
+                        </div>
+                        <div class="row">
+                            <div class="forms-inputs mb-4 col-md-6">
+                                <span>Telefone</span> <input type="text" name="telefone" v-model="telefone" v-bind:class="{'form-control':true, 'is-invalid' : !validTelefone(telefone) && telefoneBlured}" v-on:blur="telefoneBlured = true">
+                                <div class="invalid-feedback">Inserir número de telefone</div>
+                            </div>
+                            <div class="forms-inputs mb-4 col-md-6">
+                                <span>Celular</span> <input type="text" name="celular" v-model="celular" v-bind:class="{'form-control':true, 'is-invalid' : !validCelular(celular) && celularBlured}" v-on:blur="celularBlured = true">
+                                <div class="invalid-feedback">Inserir número de celular</div>
+                            </div>
+                        </div>
+                        <div class="mb-3"> <button type="submit" class="btn btn-dark w-100">Cadastar</button> </div>
+
+                    </form>
+                    </div>
+                <div class="success-data" v-else>
+                    <div class="text-center d-flex flex-column"> <i class='bx bxs-badge-check'></i> <span class="text-center fs-3">Your has been created <br> Successfully</span> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

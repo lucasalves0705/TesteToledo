@@ -1,0 +1,83 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<div class="container mt-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-12">
+            <div class="px-5 py-4" id="form1">
+                <div class="form-data" v-if="!submitted">
+                    <div class="text-center mb-4">
+                        <h4>Buscar Cliente</h4>
+                    </div>
+                    <div class="row">
+                        <div class="forms-inputs mb-4 col-md-10">
+                            <span>Nome</span> <input type="text" id="nome" name="nome" v-model="username" v-bind:class="{'form-control':true, 'is-invalid' : !validUsername(username) && usernameBlured}" v-on:blur="usernameBlured = true">
+                            <div class="invalid-feedback">Inserir um nome de usuário</div>
+                        </div>
+                        <div class="mb-3 col-md-2"> <button v-on:click.stop.prevent="submit" class="btn btn-dark w-100">Buscar</button> </div>
+                    </div>
+                </div>
+
+                <div>
+                    <table class="table" style="display: none;" id="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">CPF</th>
+                                <th scope="col">Cidade</th>
+                                <th scope="col">Celular</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-list">
+                            
+                        </tbody>
+                    </table>
+                </div>
+                <div id="message" style="display: none">
+                    <h5>Nenhum cliente encontrado</h5>
+                </div>
+                <div class="success-data" v-else>
+                    <div class="text-center d-flex flex-column"> <i class='bx bxs-badge-check'></i> <span class="text-center fs-3">Your has been created <br> Successfully</span> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+<script>
+    function exibeCabecalho() {
+        if ($('#tbody-list tr').length > 0) {
+            $('#table').show()
+            $('#message').hide()
+        }
+        else {
+            $('#table').hide()
+            $('#message').show()
+        }
+    }
+
+    $('#nome').on('change', function () {
+        $('#tbody-list').html('')
+        $.ajax({
+            url: '/home/consultar',
+            type: 'get',
+            data: {
+                nome: $('#nome').val()
+            },
+            success: function (response) {
+                if (response != null) {
+                    response.forEach(function (item) {
+                        $('#tbody-list').append(
+                            '<tr><th scope = "row">'+item.codigo+'</th ><td>'+item.nome+'</td><td>'+item.cpf+'</td><td>'+item.cidade+'</td><td>'+item.celular+'</td></tr >')
+                    })
+                    exibeCabecalho();
+                }
+            }
+        })
+    });
+</script>
+}
